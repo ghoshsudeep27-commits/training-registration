@@ -2042,6 +2042,7 @@ window.HS = (function () {
   var errBox=document.getElementById("trError");
   var success=document.getElementById("trSuccess");
   var btn=document.getElementById("trSubmit");
+  var submitting=false;
 
   HS.track("form_view",{form:"registration"});
   HS.inline(form);
@@ -2059,11 +2060,11 @@ window.HS = (function () {
     otherIn.required=o; if(!o) otherIn.value="";
   });
 
-  function fail(m){ errBox.textContent=m; errBox.style.display="block"; btn.disabled=false; btn.textContent="Register"; }
+  function fail(m){ submitting=false; errBox.textContent=m; errBox.style.display="block"; btn.disabled=false; btn.textContent="Register"; }
   function finish(){ HS.track("form_submit",{form:"registration"}); form.style.display="none"; success.style.display="block"; success.setAttribute("tabindex","-1"); success.focus(); }
 
   form.addEventListener("submit", function(e){
-    e.preventDefault(); errBox.style.display="none"; btn.disabled=true; btn.textContent="Please wait…";
+    e.preventDefault(); if(submitting) return; submitting=true; errBox.style.display="none"; btn.disabled=true; btn.textContent="Please wait…";
     if(!consent.checked){ consent.focus(); return fail("Please tick the consent box to continue."); }
     var req=fieldset.querySelectorAll("[required]");
     for(var i=0;i<req.length;i++){ var el=req[i]; var ok=(el.type==="checkbox")?el.checked:el.value.trim();
