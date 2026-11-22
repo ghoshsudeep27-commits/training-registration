@@ -2002,14 +2002,8 @@ legend.rating-legend { display:block; font-size:12.5px; font-weight:600; color:#
 /* ===== shared helpers: analytics, inline validation, submission ===== */
 window.HS = (function () {
   /* #14 analytics: uses gtag if present; set GA_ID to load Google Analytics */
-  var GA_ID = "G-3SXHN4B877"; /* GA4 measurement ID - set to "" to disable */
-  if (GA_ID) {
-    var s=document.createElement("script"); s.async=true;
-    s.src="https://www.googletagmanager.com/gtag/js?id="+GA_ID; document.head.appendChild(s);
-    window.dataLayer=window.dataLayer||[];
-    window.gtag=function(){ dataLayer.push(arguments); };
-    gtag("js", new Date()); gtag("config", GA_ID);
-  }
+  /* analytics is loaded by consent.js, and only after the visitor accepts */
+  var GA_ID = ""; /* left blank on purpose: consent.js owns the GA4 loader */
   function track(name, params){ try{ if(window.gtag) gtag("event", name, params||{}); }catch(e){} }
 
   /* #11 inline validation on blur */
